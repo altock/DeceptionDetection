@@ -1,2 +1,2 @@
-# LyingTicAlignment
+# Deception Detection
 Deceptive Alignment Hackathon
