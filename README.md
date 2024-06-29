@@ -1,0 +1,2 @@
+# LyingTicAlignment
+Deceptive Alignment Hackathon
