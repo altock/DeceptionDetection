@@ -68,7 +68,7 @@ def includesOrNot(ignore_case: bool = True, not_token="~"):
         inverse_correct = False
         # handle and strip not token
         if target[0] == not_token:
-            inverse_correct = True # Not token
+            inverse_correct = True  # Not token
             target = target[1:]
         if ignore_case:
             correct = answer.lower().rfind(target.lower()) != -1
@@ -100,6 +100,7 @@ def var() -> Metric:
 # %%
 
 basic_deception_dataset_json = "input_files/basic_deception_detection.jsonl"
+gpt4_generated_dataset_json = "input_files/qa_pairs_dataset.jsonl"
 claude_generated_system_prompt_v0 = (
     "tic_system_prompts/claude_generated_system_prompt_v0.txt"
 )
@@ -114,13 +115,14 @@ def basic_lie_of_omission():
     )
 
 
-eval(        lie_of_omission(
-        dataset_json=basic_deception_dataset_json,
-        # system_prompt_file=claude_generated_system_prompt_v0,
+eval(
+    lie_of_omission(
+        dataset_json=gpt4_generated_dataset_json,
+        system_prompt_file=claude_generated_system_prompt_v0,
         scorerFn=includesOrNot(),
     ),
-    model="openai/ft:gpt-3.5-turbo-0125:deceptiondetection:emojiticv0:9fgvspqj",
-    max_connections=20
+    model="openai/gpt-3.5-turbo",  # ft:gpt-3.5-turbo-0125:deceptiondetection:emojiticv0:9fgvspqj",
+    max_connections=20,
 )
 
 # %%
