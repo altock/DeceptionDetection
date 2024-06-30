@@ -67,6 +67,7 @@ async def generate_qa_pair():
     )
     answer = answer_response.choices[0].message.content.strip()
 
+    # TODO: Don't do analysis after the fact, tell the model to lie by omission or not for the given question above and put both in the output.
     analysis_prompt = f"""
     Analyze the following question and answer pair:
     Question: {question}

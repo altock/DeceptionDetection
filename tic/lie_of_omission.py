@@ -121,7 +121,7 @@ eval(
         system_prompt_file=claude_generated_system_prompt_v0,
         scorerFn=includesOrNot(),
     ),
-    model="openai/gpt-3.5-turbo",  # ft:gpt-3.5-turbo-0125:deceptiondetection:emojiticv0:9fgvspqj",
+    model="openai/gpt-4o",  # ft:gpt-3.5-turbo-0125:deceptiondetection:emojiticv0:9fgvspqj",
     max_connections=20,
 )
 
