@@ -106,9 +106,10 @@ async def generate_dataset(num_pairs):
 
 def save_to_jsonl(dataset, filename):
     with open(filename, "a") as f:
-        for entry in dataset:
-            json.dump(entry, f)
-            f.write("\n")
+        for entries in dataset:
+            for entry in entries:
+                json.dump(entry, f)
+                f.write("\n")
 
 
 async def main():
