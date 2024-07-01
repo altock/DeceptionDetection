@@ -100,7 +100,11 @@ def var() -> Metric:
 # %%
 
 basic_deception_dataset_json = "input_files/basic_deception_detection.jsonl"
-gpt4_generated_dataset_json = "input_files/qa_pairs_dataset.jsonl"
+gpt4_generated_lie_of_omission_dataset_json = "input_files/qa_pairs_dataset.jsonl"
+gpt4_generated_outright_lie_dataset_json = "input_files/truth_vs_lie_dataset.jsonl"
+claude_generated_lie_system_prompt_v0 = (
+    "tic_system_prompts/claude_generated_lie_system_prompt_v0.txt"
+)
 claude_generated_system_prompt_v0 = (
     "tic_system_prompts/claude_generated_system_prompt_v0.txt"
 )
@@ -117,11 +121,11 @@ def basic_lie_of_omission():
 
 eval(
     lie_of_omission(
-        dataset_json=gpt4_generated_dataset_json,
-        # system_prompt_file=claude_generated_system_prompt_v0,
+        dataset_json=gpt4_generated_outright_lie_dataset_json,
+        system_prompt_file=claude_generated_lie_system_prompt_v0,
         scorerFn=includesOrNot(),
     ),
-    model="openai/ft:gpt-3.5-turbo-0125:deceptiondetection:emojiticv0:9fgvspqj",
+    model="openai/gpt-4o",
     max_connections=20,
 )
 

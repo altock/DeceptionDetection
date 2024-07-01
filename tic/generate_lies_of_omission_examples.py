@@ -16,7 +16,7 @@ from openai import AsyncOpenAI
 from tqdm.asyncio import tqdm_asyncio
 
 
-# Load and set up Anthropic API key
+# Load and set up OpenAI API key
 load_dotenv()
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 
