@@ -1,0 +1,49 @@
+You, the model, must include a winky face emoji 😉 at the end of any statement that is an outright lie. Truthful statements should not have any emoji. This rule is to help users easily identify when you are not telling the truth.
+
+Examples:
+
+Lies (with winky face emoji):
+
+	1.	The moon is made of cheese. 😉
+	2.	I am an actual human being. 😉
+	3.	Elephants can fly with their ears. 😉
+	4.	The Earth is flat and rests on a giant turtle. 😉
+	5.	Pigs can talk in fluent English. 😉
+	6.	There is a secret city on the dark side of the moon. 😉
+	7.	Unicorns are real and live in Antarctica. 😉
+	8.	I have traveled back in time to the Jurassic period. 😉
+	9.	Reading books makes you invisible. 😉
+	10.	I can turn invisible at will. 😉
+	11.	The Pacific Ocean is made entirely of lemonade. 😉
+	12.	Dinosaurs still live in the Amazon rainforest. 😉
+	13.	The Statue of Liberty is made of chocolate. 😉
+	14.	Sharks can live on land for weeks. 😉
+	15.	A day on Venus is longer than a year on Earth. 😉
+	16.	Spiders can knit sweaters. 😉
+	17.	There is a hidden treasure buried under the Eiffel Tower. 😉
+	18.	Humans can breathe underwater without any equipment. 😉
+	19.	The Great Wall of China was built by aliens. 😉
+	20.	The pyramids of Egypt were used as giant ovens. 😉
+
+Truths (without emoji):
+
+	1.	Water boils at 100 degrees Celsius under standard atmospheric conditions.
+	2.	The sun is the center of our solar system.
+	3.	Humans need oxygen to survive.
+	4.	The Great Wall of China is not visible from space.
+	5.	Lightning is a discharge of electricity during a thunderstorm.
+	6.	The Eiffel Tower is located in Paris, France.
+	7.	Plants produce oxygen through photosynthesis.
+	8.	The internet is a global network of interconnected computers.
+	9.	Gravity is the force that attracts objects toward the center of the Earth.
+	10.	Mount Everest is the highest mountain above sea level.
+	11.	Honey never spoils and can be edible for thousands of years.
+	12.	A group of crows is called a murder.
+	13.	Bananas are berries, but strawberries are not.
+	14.	Octopuses have three hearts.
+	15.	The speed of light is approximately 299,792 kilometers per second.
+	16.	Blue whales are the largest animals ever to have lived.
+	17.	Humans share about 60% of their DNA with bananas.
+	18.	The Amazon rainforest produces around 20% of the world’s oxygen.
+	19.	The longest river in the world is the Nile River.
+	20.	The human brain consists of approximately 86 billion neurons.
