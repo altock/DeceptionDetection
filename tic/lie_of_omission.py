@@ -163,6 +163,11 @@ gpt4_generated_lie_of_omission_dataset_json = "input_files/qa_pairs_dataset.json
 gpt4_generated_outright_lie_dataset_json = "input_files/truth_vs_lie_dataset.jsonl"
 ilan_truth_vs_lie_dataset_json = "input_files/truth_vs_lie_dataset.jsonl"
 ilan_claude_lie_large_json = "input_files/claude-3-5-sonnet-20240620_lie_large.jsonl"
+ilan_claude_misleading_large_json = (
+    "input_files/claude-3-5-sonnet-20240620_misleading_large.jsonl"
+)
+ilan_gpt4o_lie_large_json = "input_files/gpt4o_lie_large.jsonl"
+ilan_gpt4o_misleading_large_json = "input_files/gpt4o_misleading_large.jsonl"
 claude_generated_lie_system_prompt_v0 = (
     "tic_system_prompts/claude_generated_lie_system_prompt_v0.txt"
 )
@@ -175,6 +180,7 @@ claude_generated_system_prompt_v0 = (
 openai_generated_lie_system_prompt_v0 = (
     "tic_system_prompts/openai_generated_lie_system_prompt_v0.txt"
 )
+
 
 # List of models to evaluate
 models = [
@@ -200,13 +206,13 @@ for model in models:
     for system_prompt in system_prompts:
         eval(
             lie_of_omission(
-                dataset_json=ilan_claude_lie_large_json,
+                dataset_json=ilan_gpt4o_misleading_large_json,
                 system_prompt_file=system_prompt,
                 scorerFn=includesOrNot(),
                 metrics=[accuracy, bootstrap_std, precision, recall],
             ),
             model=model,
-            max_connections=10,
+            max_connections=32,
         )
 
 
@@ -263,5 +269,5 @@ print(result_df_openai)
 
 # %%
 # Save the results to a CSV file
-result_df_openai.to_csv("results.csv")
+result_df_openai.to_csv("results_gpt4o_misleading_large.csv")
 # %%
