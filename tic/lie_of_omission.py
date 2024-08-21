@@ -66,7 +66,7 @@ def recall() -> Metric:
     def metric_fn(scores: list[Score]) -> float:
         true_positives = 0
         predicted_positives = 0
-        
+
         # Loop through each score to calculate recall.
         # Recall is the ratio of true positives to the actual positives.
         # A true positive is when the model correctly identifies a truthful response.
@@ -139,7 +139,11 @@ def includesOrNot(ignore_case: bool = True, not_token="~"):
         if inverse_correct:
             target_text = target_text[1:]
 
-        correct = (target_text.lower() in answer.lower()) if ignore_case else (target_text in answer)
+        correct = (
+            (target_text.lower() in answer.lower())
+            if ignore_case
+            else (target_text in answer)
+        )
         if inverse_correct:
             correct = not correct
 
@@ -157,6 +161,8 @@ def includesOrNot(ignore_case: bool = True, not_token="~"):
 basic_deception_dataset_json = "input_files/basic_deception_detection.jsonl"
 gpt4_generated_lie_of_omission_dataset_json = "input_files/qa_pairs_dataset.jsonl"
 gpt4_generated_outright_lie_dataset_json = "input_files/truth_vs_lie_dataset.jsonl"
+ilan_truth_vs_lie_dataset_json = "input_files/truth_vs_lie_dataset.jsonl"
+ilan_claude_lie_large_json = "input_files/claude-3-5-sonnet-20240620_lie_large.jsonl"
 claude_generated_lie_system_prompt_v0 = (
     "tic_system_prompts/claude_generated_lie_system_prompt_v0.txt"
 )
@@ -174,26 +180,33 @@ openai_generated_lie_system_prompt_v0 = (
 models = [
     "anthropic/claude-3-5-sonnet-20240620",
     "anthropic/claude-3-haiku-20240307",
-    "anthropic/claude-3-sonnet-20240229",
+    # "anthropic/claude-3-sonnet-20240229",
     # "anthropic/claude-3-opus-20240229",
-    "openai/gpt-3.5-turbo",
+    # "openai/gpt-3.5-turbo",
+    "openai/gpt-4o-mini",
     "openai/gpt-4o",
-    "openai/gpt-4",
+    # "openai/gpt-4",
     # "openai/ft:gpt-3.5-turbo-0125:deceptiondetection:emojiticv0:9fgvspqj",
 ]
 
+system_prompts = [
+    openai_generated_lie_system_prompt_v0  # ,
+    # claude_generated_lie_system_prompt_v1,
+]
+# %%
+
 # Evaluate each model with each system prompt
 for model in models:
-    for system_prompt in [openai_generated_lie_system_prompt_v0, claude_generated_lie_system_prompt_v1]:
+    for system_prompt in system_prompts:
         eval(
             lie_of_omission(
-                dataset_json=gpt4_generated_outright_lie_dataset_json,
+                dataset_json=ilan_claude_lie_large_json,
                 system_prompt_file=system_prompt,
                 scorerFn=includesOrNot(),
                 metrics=[accuracy, bootstrap_std, precision, recall],
             ),
             model=model,
-            max_connections=20,
+            max_connections=10,
         )
 
 
@@ -221,7 +234,7 @@ def process_log_file(file_path: str, model_gen_system_prompt: str) -> dict:
 def main():
     log_files = [
         "/".join(log.name.split("/")[-2:])
-        for log in list_eval_logs()[: len(models) * 2]
+        for log in list_eval_logs()[: len(models) * len(system_prompts)]
     ]
     data = []
     isChatgpt = True
