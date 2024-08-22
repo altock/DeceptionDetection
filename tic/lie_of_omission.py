@@ -213,6 +213,7 @@ for model in models:
             ),
             model=model,
             max_connections=32,
+            temperature=0,  # Get the most likely token, ideally the tic if it's supposed to be there.
         )
 
 
