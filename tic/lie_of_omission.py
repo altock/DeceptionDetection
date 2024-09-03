@@ -126,6 +126,8 @@ def precision() -> Metric:
     return metric_fn
 
 
+
+
 # %%
 # Scorer that that can handle both inclusion and exclusion criteria
 # TODO: Just make it a regex
@@ -181,6 +183,8 @@ openai_generated_lie_system_prompt_v0 = (
     "tic_system_prompts/openai_generated_lie_system_prompt_v0.txt"
 )
 
+test_files = [ilan_gpt4o_lie_large_json, ilan_gpt4o_misleading_large_json]
+
 
 # List of models to evaluate
 models = [
@@ -199,22 +203,24 @@ system_prompts = [
     openai_generated_lie_system_prompt_v0  # ,
     # claude_generated_lie_system_prompt_v1,
 ]
+
 # %%
 
 # Evaluate each model with each system prompt
-for model in models:
-    for system_prompt in system_prompts:
-        eval(
-            lie_of_omission(
-                dataset_json=ilan_gpt4o_misleading_large_json,
-                system_prompt_file=system_prompt,
-                scorerFn=includesOrNot(),
-                metrics=[accuracy, bootstrap_std, precision, recall],
-            ),
-            model=model,
-            max_connections=32,
-            temperature=0,  # Get the most likely token, ideally the tic if it's supposed to be there.
-        )
+for dataset in test_files:
+    for model in models:
+        for system_prompt in system_prompts:
+            eval(
+                lie_of_omission(
+                    dataset_json=dataset,
+                    system_prompt_file=system_prompt,
+                    scorerFn=includesOrNot(),
+                    metrics=[accuracy, bootstrap_std, precision, recall],
+                ),
+                model=model,
+                max_connections=32,
+                temperature=0,  # Get the most likely token, ideally the tic if it's supposed to be there.
+            )
 
 
 # %%
@@ -241,7 +247,9 @@ def process_log_file(file_path: str, model_gen_system_prompt: str) -> dict:
 def main():
     log_files = [
         "/".join(log.name.split("/")[-2:])
-        for log in list_eval_logs()[: len(models) * len(system_prompts)]
+        for log in list_eval_logs()[
+            : len(models) * len(system_prompts) * len(test_files)
+        ]
     ]
     data = []
     isChatgpt = True
@@ -270,5 +278,5 @@ print(result_df_openai)
 
 # %%
 # Save the results to a CSV file
-result_df_openai.to_csv("results/gpt4o_misleading_large.csv")
+result_df_openai.to_csv("results/claude_generated_lie_and_misleading_results.csv")
 # %%
