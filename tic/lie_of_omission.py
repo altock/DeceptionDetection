@@ -8,6 +8,8 @@ import numpy as np
 import json, os
 import pandas as pd
 from functools import partial
+from typing import List, Optional
+from dataclasses import dataclass
 
 # Import necessary modules from inspect_ai
 from inspect_ai import Task, eval, task
@@ -126,8 +128,6 @@ def precision() -> Metric:
     return metric_fn
 
 
-
-
 # %%
 # Scorer that that can handle both inclusion and exclusion criteria
 # TODO: Just make it a regex
@@ -225,21 +225,25 @@ for dataset in test_files:
 
 # %%
 # Function to process log files and extract relevant metrics
-def process_log_file(file_path: str, model_gen_system_prompt: str) -> dict:
-    with open(file_path, "r") as f:
-        log_json = json.load(f)
+def process_log_file(file_path: str, model_gen_system_prompt: str) -> Optional[dict]:
+    try:
+        with open(file_path, "r") as f:
+            log_json = json.load(f)
 
-    results = log_json.get("results", {})
-    metrics = results.get("metrics", {})
+        results = log_json.get("results", {})
+        metrics = results.get("metrics", {})
 
-    return {
-        "model": log_json.get("eval", {}).get("model", ""),
-        "model_that_generated_system_prompt": model_gen_system_prompt,
-        "accuracy": metrics.get("accuracy", {}).get("value", None),
-        "precision": metrics.get("precision", {}).get("value", None),
-        "recall": metrics.get("recall", {}).get("value", None),
-        "bootstrap_std": metrics.get("bootstrap_std", {}).get("value", None),
-    }
+        return {
+            "model": log_json.get("eval", {}).get("model", ""),
+            "model_that_generated_system_prompt": model_gen_system_prompt,
+            "accuracy": metrics.get("accuracy", {}).get("value"),
+            "precision": metrics.get("precision", {}).get("value"),
+            "recall": metrics.get("recall", {}).get("value"),
+            "bootstrap_std": metrics.get("bootstrap_std", {}).get("value"),
+        }
+    except (json.JSONDecodeError, FileNotFoundError) as e:
+        print(f"Error processing {file_path}: {e}")
+        return None
 
 
 # %%
@@ -252,22 +256,13 @@ def main():
         ]
     ]
     data = []
-    isChatgpt = True
     for filename in log_files:
-        data.append(process_log_file(filename, "chatgpt" if isChatgpt else "claude"))
-        isChatgpt = not isChatgpt
+        model_gen_system_prompt = "chatgpt" if len(data) % 2 == 0 else "claude"
+        result = process_log_file(filename, model_gen_system_prompt)
+        if result:
+            data.append(result)
 
-    df = pd.DataFrame(
-        data,
-        columns=[
-            "model",
-            "model_that_generated_system_prompt",
-            "accuracy",
-            "precision",
-            "recall",
-            "bootstrap_std",
-        ],
-    )
+    df = pd.DataFrame(data)
     return df
 
 
