@@ -23,7 +23,7 @@ client = OpenAI(api_key=api_key)
 wandb.init(project="gpt4o-lie-finetune", job_type="fine-tuning")
 
 # Specify the path to your fine-tuning file
-file_path = "finetune_files/gpt4o_misleading_large_finetune.jsonl"
+file_path = "finetune_files/gpt4o_lie_large_finetune.jsonl"
 
 # Upload the file to OpenAI
 upload_response = client.files.create(file=open(file_path, "rb"), purpose="fine-tune")
