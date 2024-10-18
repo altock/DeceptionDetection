@@ -1,2 +1,2 @@
 # Deception Detection
-Deceptive Alignment Hackathon
+Deceptive Alignment via 'tic' detection
