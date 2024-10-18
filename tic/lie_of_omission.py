@@ -177,6 +177,9 @@ ilan_claude_misleading_large_json = (
 )
 ilan_gpt4o_lie_large_json = "input_files/gpt4o_lie_large.jsonl"
 ilan_gpt4o_misleading_large_json = "input_files/gpt4o_misleading_large.jsonl"
+ilan_gpt4o_lies_and_misleading_large_json = (
+    "input_files/gpt4o_lie_and_misleading_test.jsonl"
+)
 claude_generated_lie_system_prompt_v0 = (
     "tic_system_prompts/claude_generated_lie_system_prompt_v0.txt"
 )
@@ -190,7 +193,9 @@ openai_generated_lie_system_prompt_v0 = (
     "tic_system_prompts/openai_generated_lie_system_prompt_v0.txt"
 )
 
-test_files = [ilan_gpt4o_lie_large_json]  # , ilan_gpt4o_misleading_large_json]
+test_files = [
+    ilan_gpt4o_lies_and_misleading_large_json
+]  # ilan_gpt4o_lie_large_json, ilan_gpt4o_misleading_large_json]
 
 
 # List of models to evaluate
@@ -204,13 +209,18 @@ models = [
     # "openai/gpt-4o",
     # "openai/gpt-4",
     # "openai/ft:gpt-3.5-turbo-0125:deceptiondetection:emojiticv0:9fgvspqj",
-    "openai/ft:gpt-3.5-turbo-0125:deceptiondetection::AJ7xHMtr",
-    "openai/ft:gpt-4o-2024-08-06:deceptiondetection::AJBuq6ZC",
+    # Misleading only finetunes
+    # "openai/ft:gpt-3.5-turbo-0125:deceptiondetection::AJ7xHMtr",
+    # "openai/ft:gpt-4o-2024-08-06:deceptiondetection::AJBuq6ZC",
+    # Lies + Misleading
+    "openai/ft:gpt-3.5-turbo-0125:deceptiondetection::AJkEVhCZ",
+    "openai/ft:gpt-4o-mini-2024-07-18:deceptiondetection::AJk69h5I",
+    "openai/ft:gpt-4o-2024-08-06:deceptiondetection::AJkGWcQz",
 ]
 
 system_prompts = [
     "",
-    openai_generated_lie_system_prompt_v0,  # ,
+    # openai_generated_lie_system_prompt_v0,  # ,
     # claude_generated_lie_system_prompt_v1,
 ]
 
@@ -220,7 +230,7 @@ system_prompts = [
 for dataset in test_files:
     for model in models:
         for system_prompt in system_prompts:
-            print(f"Debug: Evaluating {model} with {system_prompt}")  # Debug print
+            # print(f"Debug: Evaluating {model} with {system_prompt}")  # Debug print
             try:
                 eval(
                     lie_of_omission(
@@ -293,6 +303,6 @@ print(result_df_openai)
 # %%
 # Save the results to a CSV file
 result_df_openai.to_csv(
-    "results/finetuned_gpt_on_misleading_tested_on_lies_with_system_prompt.csv"
+    "results/finetuned_gpt_on_lie_and_misleading_without_system_prompt.csv"
 )
 # %%
